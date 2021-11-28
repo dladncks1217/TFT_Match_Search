@@ -7,6 +7,7 @@ const morgan = require("morgan");
 require("dotenv").config();
 
 const indexRouter = require("./routes/index");
+const APIRequestRouter = require("./routes/APIRequest");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 //passport
 
 app.use("/", indexRouter);
+app.use("/", APIRequestRouter);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
