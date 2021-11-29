@@ -9,8 +9,10 @@ require("dotenv").config();
 const indexRouter = require("./routes/index");
 const APIRequestRouter = require("./routes/APIRequest");
 
+// const { sequelize } = require("./models");
 const app = express();
 
+// sequelize.sync();
 app.set("port", process.env.PORT);
 
 if (process.env.NODE_ENV === "production") {

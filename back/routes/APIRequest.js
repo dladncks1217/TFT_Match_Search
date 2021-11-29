@@ -16,6 +16,7 @@ router.post("/summoner", async (req, res, next) => {
         headers: { "X-Riot-Token": process.env.RIOT_API_KEY },
       }
     );
+    console.log(data);
     puuid = data.puuid;
     return res.redirect(`/getmatchid/${puuid}/1/${process.env.RIOT_API_KEY}`);
   } catch (error) {
@@ -50,7 +51,7 @@ router.get("/gamematchdata/:matchid/:puuid", async (req, res, next) => {
         myGameData = v;
       }
     });
-    return res.send(myGameData);
+    return res.send(data);
   } catch (error) {
     console.error(error);
     next(error);
