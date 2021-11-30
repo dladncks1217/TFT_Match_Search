@@ -5,12 +5,12 @@ const axios = require("axios");
 require("dotenv").config();
 
 // 소환사 puuid 가져오기
-router.post("/summoner", async (req, res, next) => {
+router.get("/summoner/:nickname", async (req, res, next) => {
   try {
     let puuid = null;
     const { data } = await axios.get(
       `https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/${encodeURIComponent(
-        req.body.nickname
+        req.params.nickname
       )}`,
       {
         headers: { "X-Riot-Token": process.env.RIOT_API_KEY },
@@ -18,7 +18,9 @@ router.post("/summoner", async (req, res, next) => {
     );
     console.log(data);
     puuid = data.puuid;
-    return res.redirect(`/getmatchid/${puuid}/1/${process.env.RIOT_API_KEY}`);
+    return res.redirect(
+      `/APIRequest/getmatchid/${puuid}/1/${process.env.RIOT_API_KEY}`
+    );
   } catch (error) {
     console.error(error);
     next(error);
@@ -31,7 +33,9 @@ router.get("/getmatchid/:puuid/:count/:key", async (req, res, next) => {
     const { data } = await axios.get(
       `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${req.params.puuid}/ids?count=${req.params.count}&api_key=${req.params.key}`
     );
-    return res.redirect(`/gamematchdata/${data}/${req.params.puuid}`);
+    return res.redirect(
+      `/APIRequest/gamematchdata/${data}/${req.params.puuid}`
+    );
   } catch (error) {
     console.error(error);
     next(error);

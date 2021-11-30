@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 //passport
 
 app.use("/", indexRouter);
-app.use("/", APIRequestRouter);
+app.use("/APIRequest", APIRequestRouter);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
