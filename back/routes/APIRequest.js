@@ -61,4 +61,14 @@ router.get("/gamematchdata/:matchid/:puuid", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/updateRank", async (req, res, next) => {
+  const { data } = await axios.get(
+    `https://kr.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.RIOT_API_KEY}`
+  );
+  let rank = data.entries;
+  rank.sort((a, b) => b.leaguePoints - a.leaguePoints);
+  return res.json(rank);
+});
+
 module.exports = router;

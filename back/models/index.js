@@ -15,5 +15,6 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = require("./userMatchData")(sequelize, Sequelize);
+db.Rank = require("./rank")(sequelize, Sequelize);
 
 module.exports = db;
