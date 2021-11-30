@@ -3,11 +3,12 @@ import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import Link from "next/link";
 import { Layout, Menu } from "antd";
+import { Content } from "antd/lib/layout/layout";
 const { Header, Footer } = Layout;
 
 const App = ({ Component }) => {
   return (
-    <>
+    <Layout style={{ minHeight: "100vh" }}>
       <Head>
         <title>CodingTest_Collection</title>
         <link
@@ -23,16 +24,23 @@ const App = ({ Component }) => {
               <a style={{ color: "white" }}>홈으로</a>
             </Link>
           </Menu.Item>
-
+          <Menu.Item key="Rank">
+            <Link href="/Rank">
+              <a style={{ color: "white" }}>rank</a>
+            </Link>
+          </Menu.Item>
           <li
             style={{ display: "inline", color: "white", textAlign: "center" }}
           ></li>
         </Menu>
       </Header>
-      <AppLayout>
-        <Component />
-      </AppLayout>
-    </>
+      <Content>
+        <AppLayout>
+          <Component />
+        </AppLayout>
+      </Content>
+      <Footer style={{ textAlign: "center", height: 5 }}>Footer</Footer>
+    </Layout>
   );
 };
 
