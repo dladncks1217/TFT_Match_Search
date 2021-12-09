@@ -12,7 +12,7 @@ const config: TypeOrmModuleOptions = {
   database: process.env.DB_DATABASE,
   entities: [],
   // 여기에 entities 넣어서 하면 만들어짐
-  synchronize: true, // synchronize:true 이건 개발환경일때만 하자. (개발환경에서 디비 만들어서 올리는 케이스만 사용.)
+  synchronize: false, // synchronize:true 이건 개발환경일때만 하자. (개발환경에서 디비 만들어서 올리는 케이스만 사용.)
   // 한번 만들고나면 false로 해두자! (안하면 실제데이터 날려먹을수있음)
   migrations: [__dirname + '/src/migrations/*ts'],
   cli: { migrationsDir: 'src/migrations' },
