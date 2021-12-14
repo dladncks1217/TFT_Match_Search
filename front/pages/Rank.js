@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import RankCard from "../components/RankCard";
-import { Table } from "antd";
+import { Button, Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { RANK_UPDATE_REQUEST } from "../reducer/rank";
 
 const columns = [
   {
@@ -13,11 +15,11 @@ const columns = [
   },
   {
     title: "승률",
-    dataIndex: "",
+    dataIndex: "winrate",
   },
   {
     title: "게임 수",
-    dataIndex: "wins" + "losses",
+    dataIndex: "games",
   },
   {
     title: "승",
@@ -25,7 +27,7 @@ const columns = [
   },
 ];
 
-const data = [
+let data = [
   {
     summonerId: "acdNLD8-Z4MsHW8dIpVtLqpnZeY9FUm9VUX4hv9NPK3S1U8",
     summonerName: "SanChess",
@@ -111,9 +113,30 @@ const data = [
     hotStreak: false,
   },
 ];
+data = data.map((v) => {
+  v.winrate = (v.wins / (v.wins + v.losses)).toFixed(2);
+  v.games = v.wins + v.losses;
+  return v;
+});
 const Rank = () => {
+  const dispatch = useDispatch();
+  const { isUpdating } = useSelector((state) => state.rank);
+  const UpdateData = useCallback(() => {
+    dispatch({
+      type: RANK_UPDATE_REQUEST,
+    });
+  });
+
   return (
     <>
+      <Button
+        type="primary"
+        style={{ margin: "1em 5em 1em 90%" }}
+        onClick={UpdateData}
+        loading={isUpdating}
+      >
+        전적 갱신
+      </Button>
       <Table columns={columns} dataSource={data} />
     </>
   );

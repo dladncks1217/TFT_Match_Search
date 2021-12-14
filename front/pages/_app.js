@@ -1,6 +1,9 @@
 import React from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import withRedux from "next-redux-wrapper";
+import { applyMiddleware, createStore, compose } from "redux";
+import reducer from "../reducer";
 import Link from "next/link";
 import { Layout, Menu } from "antd";
 import { Content } from "antd/lib/layout/layout";
@@ -10,12 +13,11 @@ const App = ({ Component }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Head>
-        <title>CodingTest_Collection</title>
+        <title>TFT Match</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
         />
-        <link rel="stylesheet" href="../public/index.css" />
       </Head>
       <Header>
         <Menu theme="dark" mode="horizontal">
@@ -44,4 +46,21 @@ const App = ({ Component }) => {
   );
 };
 
-export default App;
+const configureStore = (initialState) => {
+  const middlewares = [];
+  const enhancer =
+    process.env.NODE_ENV === "production"
+      ? compose(applyMiddleware(...middlewares))
+      : compose(
+          applyMiddleware(...middlewares),
+          typeof window !== "undefined" &&
+            window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
+            ? window.__REDUX_DEVTOOLS_EXTENSION__()
+            : (f) => f
+        );
+  const store = createStore(reducer, initialState, enhancer);
+
+  return store;
+};
+
+export default withRedux(configureStore)(App);
