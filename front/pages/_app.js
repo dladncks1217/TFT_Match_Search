@@ -3,11 +3,14 @@ import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import withRedux from "next-redux-wrapper";
 import { applyMiddleware, createStore, compose } from "redux";
-import reducer from "../reducer";
+import createSagaMiddleware from "@redux-saga/core";
 import Link from "next/link";
 import { Layout, Menu } from "antd";
 import { Content } from "antd/lib/layout/layout";
 const { Header, Footer } = Layout;
+
+import reducer from "../reducer";
+import rootSaga from "../sagas";
 
 const App = ({ Component }) => {
   return (
@@ -47,7 +50,9 @@ const App = ({ Component }) => {
 };
 
 const configureStore = (initialState) => {
-  const middlewares = [];
+  const sagaMiddleware = createSagaMiddleware();
+
+  const middlewares = [sagaMiddleware];
   const enhancer =
     process.env.NODE_ENV === "production"
       ? compose(applyMiddleware(...middlewares))
@@ -60,6 +65,7 @@ const configureStore = (initialState) => {
         );
   const store = createStore(reducer, initialState, enhancer);
 
+  sagaMiddleware.run(rootSaga);
   return store;
 };
 
