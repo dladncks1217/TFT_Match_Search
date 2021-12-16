@@ -12,6 +12,7 @@ import * as ormconfig from '../ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { userMatchData } from './entities/userMatch.data';
 import { Rank } from './entities/Rank';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Rank } from './entities/Rank';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    HttpModule,
     GamedataModule,
     TypeOrmModule.forRoot(ormconfig),
     TypeOrmModule.forFeature([userMatchData, Rank]),
