@@ -18,7 +18,6 @@ export class ApirequestService {
   }
 
   // 게임 랭킹 가져오기
-
   async getUpdatedRank(): Promise<any> {
     try {
       console.log('현재 랭킹 가져오는 요청을 합니다.');
@@ -29,7 +28,8 @@ export class ApirequestService {
         .toPromise();
       return result.data;
     } catch (e) {
-      return console.error(e);
+      console.error(e);
+      return e;
     }
   }
 
@@ -52,6 +52,7 @@ export class ApirequestService {
         `https://asia.api.riotgames.com/tft/match/v1/matches/${matchid}?api_key=${process.env.RIOT_API_KEY}`,
       )
       .toPromise();
+    console.log(result.data.info);
     return result.data;
   }
   // puuid 가져오기

@@ -21,6 +21,7 @@ const RankReducer = (state = initialState, action) => {
       return {
         ...state,
         isUpdating: false,
+        data: action.data,
       };
     }
     case RANK_UPDATE_FAILURE: {
