@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Rank } from 'src/entities/Rank';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class ApirequestService {
-  constructor(private readonly httpService: HttpService) {}
+export class Apirequest_AxiosService {
+  constructor(
+    private readonly httpService: HttpService,
+  ) // @InjectRepository(Rank)
+  // private rankRepository: Repository<Rank>,
+  {}
+
   // 매치 업데이트
   async getMatchUpdate(nickname) {
     try {
@@ -14,22 +22,6 @@ export class ApirequestService {
       return matchresult;
     } catch (e) {
       return console.error(e);
-    }
-  }
-
-  // 게임 랭킹 가져오기
-  async getUpdatedRank(): Promise<any> {
-    try {
-      console.log('현재 랭킹 가져오는 요청을 합니다.');
-      const result = await this.httpService
-        .get(
-          `https://kr.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.RIOT_API_KEY}`,
-        )
-        .toPromise();
-      return result.data;
-    } catch (e) {
-      console.error(e);
-      return e;
     }
   }
 
@@ -69,5 +61,21 @@ export class ApirequestService {
       )
       .toPromise();
     return result.data.puuid;
+  }
+
+  // 게임 랭킹 가져오기
+  async getUpdatedRank(): Promise<any> {
+    try {
+      console.log('현재 랭킹 가져오는 요청을 합니다.');
+      const result = await this.httpService
+        .get(
+          `https://kr.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.RIOT_API_KEY}`,
+        )
+        .toPromise();
+      return result.data;
+    } catch (e) {
+      console.error(e);
+      return e;
+    }
   }
 }
