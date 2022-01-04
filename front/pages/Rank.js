@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import RankCard from "../components/RankCard";
 import { Button, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { RANK_UPDATE_REQUEST } from "../reducer/rank";
+import { getUpdatedRankAction } from "../actions/rank";
 
 const columns = [
   {
@@ -122,9 +122,7 @@ const Rank = () => {
   const dispatch = useDispatch();
   const { isUpdating } = useSelector((state) => state.rank);
   const UpdateData = useCallback(() => {
-    dispatch({
-      type: RANK_UPDATE_REQUEST,
-    });
+    dispatch(getUpdatedRankAction());
   });
 
   return (
